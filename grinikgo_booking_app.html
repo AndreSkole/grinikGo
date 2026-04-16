@@ -1,0 +1,396 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --green:#1a7a4a;--green-dark:#155e38;--green-light:#22a060;--green-pale:#e8f5ee;
+    --nav:#111;--nav2:#1c1c1c;--text:#111;--muted:#555;--border:#ddd;--bg:#fafafa;--card:#fff;
+    --red:#c0392b;--amber:#d4880a;
+  }
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:600px}
+  h1,h2,h3,h4{font-family:'Syne',sans-serif}
+  nav{background:var(--nav);color:#fff;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:100}
+  .logo{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;color:#fff;letter-spacing:-0.5px}
+  .logo span{color:var(--green-light)}
+  .nav-actions{display:flex;gap:10px;align-items:center}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:0.875rem;font-weight:500;cursor:pointer;border:none;font-family:'DM Sans',sans-serif;transition:all .15s}
+  .btn-primary{background:var(--green);color:#fff}
+  .btn-primary:hover{background:var(--green-dark)}
+  .btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.3)}
+  .btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+  .btn-ghost{background:transparent;color:var(--text);border:1.5px solid var(--border)}
+  .btn-ghost:hover{border-color:#999}
+  .btn-danger{background:var(--red);color:#fff}
+  .btn-sm{padding:6px 12px;font-size:0.8rem}
+  section{display:none}
+  section.active{display:block}
+  .container{max-width:760px;margin:0 auto;padding:2rem 1.25rem}
+  .hero{background:linear-gradient(135deg,#0f2419 0%,#1a4030 100%);color:#fff;padding:3rem 1.5rem 2rem;text-align:center}
+  .hero h1{font-size:2.2rem;font-weight:700;margin-bottom:.5rem}
+  .hero p{color:rgba(255,255,255,.7);font-size:1rem;max-width:480px;margin:0 auto}
+  .hero .tag{display:inline-block;background:var(--green);color:#fff;font-size:.75rem;font-weight:600;letter-spacing:.5px;padding:4px 12px;border-radius:20px;margin-bottom:1rem;font-family:'Syne',sans-serif}
+  .form-card{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:1.75rem;margin-top:1.5rem}
+  .form-section-title{font-size:1.1rem;font-weight:600;margin-bottom:1rem;color:var(--text)}
+  .form-group{margin-bottom:1rem}
+  label{display:block;font-size:.82rem;font-weight:500;color:var(--muted);margin-bottom:.35rem;letter-spacing:.2px}
+  input[type=text],input[type=tel],input[type=date],select,textarea{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:8px;font-size:.9rem;font-family:'DM Sans',sans-serif;background:var(--card);color:var(--text);outline:none;transition:border-color .15s}
+  input:focus,select:focus,textarea:focus{border-color:var(--green)}
+  textarea{resize:vertical;min-height:80px}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .time-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:.5rem}
+  .time-btn{padding:8px 14px;border:1.5px solid var(--border);border-radius:8px;background:var(--card);font-size:.82rem;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text);transition:all .15s;font-weight:500}
+  .time-btn:hover{border-color:var(--green);color:var(--green)}
+  .time-btn.selected{background:var(--green);color:#fff;border-color:var(--green)}
+  .divider{border:none;border-top:1px solid var(--border);margin:1.5rem 0}
+  .submit-area{margin-top:1.5rem;display:flex;justify-content:flex-end}
+  .btn-submit{background:var(--green);color:#fff;padding:12px 32px;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;border:none;font-family:'Syne',sans-serif;transition:all .15s;letter-spacing:.3px}
+  .btn-submit:hover{background:var(--green-dark)}
+  .confirm-wrap{background:var(--card);border-radius:12px;border:1px solid var(--border);overflow:hidden;margin-top:1.5rem}
+  .confirm-header{background:var(--green);color:#fff;padding:1.5rem;text-align:center}
+  .confirm-header .check{font-size:2.5rem;margin-bottom:.5rem}
+  .confirm-header h2{font-size:1.4rem}
+  .confirm-header p{opacity:.85;font-size:.9rem;margin-top:.25rem}
+  .confirm-body{padding:1.5rem}
+  .confirm-row{display:flex;justify-content:space-between;padding:.65rem 0;border-bottom:1px solid var(--border);font-size:.9rem}
+  .confirm-row:last-child{border:none}
+  .confirm-label{color:var(--muted);font-weight:500}
+  .confirm-val{font-weight:600;text-align:right;max-width:60%}
+  .confirm-actions{display:flex;gap:10px;justify-content:center;margin-top:1.25rem}
+  .admin-login{max-width:400px;margin:4rem auto;padding:0 1.25rem}
+  .admin-login .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2rem}
+  .admin-login h2{font-size:1.5rem;margin-bottom.5rem;margin-bottom:.5rem}
+  .admin-login p{color:var(--muted);font-size:.875rem;margin-bottom:1.5rem}
+  .err-msg{color:var(--red);font-size:.82rem;margin-top:.5rem;display:none}
+  .admin-wrap{padding:1.25rem}
+  .stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.5rem}
+  .stat-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem}
+  .stat-label{font-size:.75rem;color:var(--muted);font-weight:500;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.3rem}
+  .stat-val{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:700}
+  .stat-val.green{color:var(--green)}
+  .stat-val.amber{color:var(--amber)}
+  .filters{display:flex;gap:6px;margin-bottom:1rem}
+  .filter-btn{padding:7px 16px;border-radius:7px;border:1.5px solid var(--border);background:transparent;cursor:pointer;font-size:.82rem;font-weight:500;font-family:'DM Sans',sans-serif;color:var(--muted);transition:all .15s}
+  .filter-btn.active{background:var(--green);color:#fff;border-color:var(--green)}
+  .table-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  table{width:100%;border-collapse:collapse;font-size:.82rem}
+  th{background:#f5f5f5;padding:10px 12px;text-align:left;font-weight:600;color:var(--muted);font-size:.75rem;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--border)}
+  td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+  tr:last-child td{border:none}
+  tr:hover td{background:#fafefe}
+  .badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:.72rem;font-weight:600}
+  .badge-upcoming{background:#e8f5ee;color:#1a7a4a}
+  .badge-past{background:#f0f0f0;color:#666}
+  .admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;gap:1rem;flex-wrap:wrap}
+  .admin-title{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:700}
+  .empty-state{text-align:center;padding:3rem;color:var(--muted);font-size:.9rem}
+  @media(max-width:560px){
+    .form-row{grid-template-columns:1fr}
+    .stat-grid{grid-template-columns:1fr 1fr}
+    .hero h1{font-size:1.6rem}
+    table{font-size:.78rem}
+    th,td{padding:8px 8px}
+  }
+</style>
+
+<nav>
+  <div class="logo">Grinik<span>Go</span></div>
+  <div class="nav-actions">
+    <button class="btn btn-outline btn-sm" onclick="showAdmin()">Admin</button>
+  </div>
+</nav>
+
+<section id="booking-section" class="active">
+  <div class="hero">
+    <div class="tag">Kjøretjeneste</div>
+    <h1>Din pålitelige tur, raskt og enkelt</h1>
+    <p>Book din kjøring på under ett minutt. Tilgjengelig hverdager kl. 16:00–21:00.</p>
+  </div>
+  <div class="container">
+    <div class="form-card">
+      <div class="form-section-title">Velg tidspunkt</div>
+      <div class="time-grid" id="timeGrid"></div>
+      <div class="form-group" style="margin-top:1rem">
+        <label>Eller velg fra nedtrekksmeny</label>
+        <select id="timeSelect" onchange="syncTimeFromSelect(this.value)">
+          <option value="">Velg tidspunkt...</option>
+        </select>
+      </div>
+      <hr class="divider">
+      <div class="form-section-title">Dine opplysninger</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fullt navn *</label>
+          <input type="text" id="fName" placeholder="Ola Nordmann">
+        </div>
+        <div class="form-group">
+          <label>Telefonnummer *</label>
+          <input type="tel" id="fPhone" placeholder="400 00 000">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Dato *</label>
+          <input type="date" id="fDate">
+        </div>
+        <div class="form-group">
+          <label>Tidspunkt *</label>
+          <select id="fTime">
+            <option value="">Velg tidspunkt...</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Hentested *</label>
+          <input type="text" id="fFrom" placeholder="F.eks. Storgata 1">
+        </div>
+        <div class="form-group">
+          <label>Bestemmelsessted *</label>
+          <input type="text" id="fTo" placeholder="F.eks. Sentrum">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Merknad (valgfri)</label>
+        <textarea id="fNote" placeholder="Ekstra passasjer, spesielle behov..."></textarea>
+      </div>
+      <div class="submit-area">
+        <button class="btn-submit" onclick="submitBooking()">Bestill tur &rarr;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="confirm-section">
+  <div class="container">
+    <div class="confirm-wrap" id="confirmWrap">
+      <div class="confirm-header">
+        <div class="check">✓</div>
+        <h2>Bestilling bekreftet!</h2>
+        <p>Vi ser frem til å kjøre deg</p>
+      </div>
+      <div class="confirm-body" id="confirmBody"></div>
+      <div class="confirm-actions">
+        <button class="btn btn-primary" onclick="newBooking()">Ny bestilling</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="admin-login-section">
+  <div class="admin-login">
+    <div class="card">
+      <h2>Adminpanel</h2>
+      <p>Logg inn for å se og administrere bestillinger.</p>
+      <div class="form-group">
+        <label>Brukernavn</label>
+        <input type="text" id="adminUser" placeholder="admin">
+      </div>
+      <div class="form-group">
+        <label>Passord</label>
+        <input type="text" id="adminPass" placeholder="••••••••">
+      </div>
+      <div class="err-msg" id="loginErr">Feil brukernavn eller passord.</div>
+      <div style="margin-top:1.25rem;display:flex;gap:10px">
+        <button class="btn btn-primary" style="flex:1" onclick="doLogin()">Logg inn</button>
+        <button class="btn btn-ghost" onclick="showSection('booking-section')">Tilbake</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="admin-panel-section">
+  <div class="admin-wrap">
+    <div class="admin-header">
+      <div class="admin-title">Bestillingsoversikt</div>
+      <button class="btn btn-danger btn-sm" onclick="doLogout()">Logg ut</button>
+    </div>
+    <div class="stat-grid" id="statGrid"></div>
+    <div class="filters">
+      <button class="filter-btn active" onclick="setFilter('all',this)">Alle</button>
+      <button class="filter-btn" onclick="setFilter('upcoming',this)">Kommende</button>
+      <button class="filter-btn" onclick="setFilter('past',this)">Tidligere</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Navn</th>
+            <th>Telefon</th>
+            <th>Dato / Tid</th>
+            <th>Rute</th>
+            <th>Merknad</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="bookingsTbody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<script>
+const times=[];
+for(let h=16;h<=20;h++){times.push(h+':00');times.push(h+':30');}
+times.push('21:00');
+
+let selectedTime='';
+let bookings=[];
+let filter='all';
+
+function initTimes(){
+  const grid=document.getElementById('timeGrid');
+  const sel=document.getElementById('timeSelect');
+  const fTime=document.getElementById('fTime');
+  times.forEach(t=>{
+    const b=document.createElement('button');
+    b.className='time-btn';b.textContent=t;
+    b.onclick=()=>selectTime(t);
+    grid.appendChild(b);
+    const o=document.createElement('option');o.value=t;o.textContent=t;
+    sel.appendChild(o);
+    const o2=document.createElement('option');o2.value=t;o2.textContent=t;
+    fTime.appendChild(o2);
+  });
+  const today=new Date().toISOString().split('T')[0];
+  document.getElementById('fDate').value=today;
+}
+
+function selectTime(t){
+  selectedTime=t;
+  document.querySelectorAll('.time-btn').forEach(b=>{b.classList.toggle('selected',b.textContent===t);});
+  document.getElementById('timeSelect').value=t;
+  document.getElementById('fTime').value=t;
+}
+
+function syncTimeFromSelect(v){if(v)selectTime(v);}
+
+function showSection(id){
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function showAdmin(){showSection('admin-login-section');}
+
+function doLogin(){
+  const u=document.getElementById('adminUser').value;
+  const p=document.getElementById('adminPass').value;
+  if(u==='admin'&&p==='admin123'){
+    document.getElementById('loginErr').style.display='none';
+    renderAdmin();
+    showSection('admin-panel-section');
+  } else {
+    document.getElementById('loginErr').style.display='block';
+  }
+}
+
+function doLogout(){showSection('booking-section');}
+
+function submitBooking(){
+  const name=document.getElementById('fName').value.trim();
+  const phone=document.getElementById('fPhone').value.trim();
+  const date=document.getElementById('fDate').value;
+  const time=document.getElementById('fTime').value;
+  const from=document.getElementById('fFrom').value.trim();
+  const to=document.getElementById('fTo').value.trim();
+  const note=document.getElementById('fNote').value.trim();
+  if(!name||!phone||!date||!time||!from||!to){alert('Vennligst fyll ut alle obligatoriske felter.');return;}
+  const b={name,phone,date,time,from,to,note,id:Date.now()};
+  bookings.push(b);
+  showConfirm(b);
+}
+
+function showConfirm(b){
+  const body=document.getElementById('confirmBody');
+  const d=new Date(b.date);
+  const dateStr=d.toLocaleDateString('nb-NO',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  body.innerHTML=[
+    row('Navn',b.name),row('Telefon',b.phone),row('Dato',dateStr),
+    row('Tidspunkt',b.time),row('Fra',b.from),row('Til',b.to),
+    b.note?row('Merknad',b.note):''
+  ].join('');
+  showSection('confirm-section');
+}
+
+function row(l,v){return `<div class="confirm-row"><span class="confirm-label">${l}</span><span class="confirm-val">${v}</span></div>`;}
+
+function newBooking(){
+  document.getElementById('fName').value='';
+  document.getElementById('fPhone').value='';
+  document.getElementById('fFrom').value='';
+  document.getElementById('fTo').value='';
+  document.getElementById('fNote').value='';
+  selectedTime='';
+  document.querySelectorAll('.time-btn').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('timeSelect').value='';
+  document.getElementById('fTime').value='';
+  showSection('booking-section');
+}
+
+function isUpcoming(b){
+  const now=new Date();
+  const bDate=new Date(b.date+'T'+b.time);
+  return bDate>=now;
+}
+
+function setFilter(f,el){
+  filter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderTable();
+}
+
+function renderAdmin(){
+  const total=bookings.length;
+  const upcoming=bookings.filter(isUpcoming).length;
+  const past=total-upcoming;
+  const sg=document.getElementById('statGrid');
+  sg.innerHTML=`
+    <div class="stat-card"><div class="stat-label">Totalt bestillinger</div><div class="stat-val">${total}</div></div>
+    <div class="stat-card"><div class="stat-label">Kommende turer</div><div class="stat-val green">${upcoming}</div></div>
+    <div class="stat-card"><div class="stat-label">Tidligere turer</div><div class="stat-val amber">${past}</div></div>
+  `;
+  renderTable();
+}
+
+function renderTable(){
+  renderAdmin_stats();
+  const tbody=document.getElementById('bookingsTbody');
+  let list=bookings;
+  if(filter==='upcoming')list=bookings.filter(isUpcoming);
+  if(filter==='past')list=bookings.filter(b=>!isUpcoming(b));
+  if(!list.length){tbody.innerHTML=`<tr><td colspan="6"><div class="empty-state">Ingen bestillinger å vise</div></td></tr>`;return;}
+  tbody.innerHTML=list.map(b=>{
+    const d=new Date(b.date);
+    const dateStr=d.toLocaleDateString('nb-NO',{day:'2-digit',month:'2-digit',year:'numeric'});
+    const up=isUpcoming(b);
+    return `<tr>
+      <td style="font-weight:500">${b.name}</td>
+      <td>${b.phone}</td>
+      <td>${dateStr}<br><span style="color:var(--muted)">${b.time}</span></td>
+      <td>${b.from}<br><span style="color:var(--green);font-size:.78rem">→ ${b.to}</span></td>
+      <td style="color:var(--muted);font-size:.8rem">${b.note||'—'}</td>
+      <td><span class="badge ${up?'badge-upcoming':'badge-past'}">${up?'Kommende':'Tidligere'}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function renderAdmin_stats(){
+  const total=bookings.length;
+  const upcoming=bookings.filter(isUpcoming).length;
+  const past=total-upcoming;
+  const sg=document.getElementById('statGrid');
+  if(sg)sg.innerHTML=`
+    <div class="stat-card"><div class="stat-label">Totalt bestillinger</div><div class="stat-val">${total}</div></div>
+    <div class="stat-card"><div class="stat-label">Kommende turer</div><div class="stat-val green">${upcoming}</div></div>
+    <div class="stat-card"><div class="stat-label">Tidligere turer</div><div class="stat-val amber">${past}</div></div>
+  `;
+}
+
+initTimes();
+
+bookings=[
+  {id:1,name:'Kari Hansen',phone:'941 23 456',date:'2026-04-10',time:'17:00',from:'Storgata 5',to:'Narvikveien 12',note:''},
+  {id:2,name:'Per Olsen',phone:'928 34 567',date:'2026-04-20',time:'18:30',from:'Sentrum',to:'Åsane',note:'Rullestol'},
+  {id:3,name:'Lise Berg',phone:'472 56 789',date:'2026-04-17',time:'16:30',from:'Kirkeveien 3',to:'Flyplassen',note:'2 kofferter'},
+];
+</script>
